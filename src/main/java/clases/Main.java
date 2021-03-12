@@ -243,7 +243,7 @@ public class Main {
     		  String linea = "Libro"+l.getTitulo() + " / "+l.getIsbn()+" / "+l.getAutor()+ " / "+ l.getGenero() + "/ "+l.getPaginas();
     		  file.write(linea);
     		  file.newLine();
-    		  System.out.println("el libro "+l.getTitulo() +" esta en el fichero");
+    		  System.out.println("el libro  " +l.getTitulo() +" esta en el fichero");
     	  }
     	  file.close();
     	  
