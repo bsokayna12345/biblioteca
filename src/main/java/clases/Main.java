@@ -4,14 +4,27 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner; 
+
 
 public class Main {
     
     public static void main (String [] args) {
-    	
+  
     	ArrayList<Libro> catalogo = new ArrayList<Libro>();
     	
     	while(true) {
@@ -24,6 +37,22 @@ public class Main {
 				break;
 			case 2:
 				//TODO Lista de Libros
+				listLibros(catalogo);
+				break;
+			case 3:
+				bajaLibros(catalogo); 
+				break;
+			case 4:
+				buscarLibros(catalogo);
+				break;
+			case 5:
+				ordenacionLibros(catalogo);
+				break;
+			case 6:
+				creatFichero(catalogo);
+				break;
+			case 7:
+				cargaFichero(catalogo);
 				break;
 			default:
 				break;
@@ -41,9 +70,10 @@ public class Main {
     		System.out.println("3. Baja de Libros");
     		System.out.println("4. BÃºsqueda de Libros");
     		System.out.println("5. Ordenacion de Libros");
-    		System.out.println("Introduce la opcion:");
+    		System.out.println("6. Crear fichero:");
+    		System.out.println("7. Cargar fichero:");
     	
-    		opcion = leerOpcion(2);
+    		opcion = leerOpcion(8);
     		
     	}while(opcion <=0);
     	
@@ -73,6 +103,8 @@ public class Main {
     	//Crear el libro con los datos de la entrada
     	catalogo.add(libro);
     	//Meter el libro en el catalogo
+    	
+    	
     }
     
     private static String obtenerDatosLibro() {
@@ -93,6 +125,9 @@ public class Main {
     	
     	return datos;
     }
+   
+	
+	
     
     private static Libro procesaEntrada(String entrada) {
     	Libro libro = null;
@@ -104,8 +139,9 @@ public class Main {
     	Genero genero = Genero.getGenero(datos[2]);
     	String autor = datos[3];
     	Integer paginas = Integer.parseInt(datos[4]);
-    	
-    	
+    
+    	 libro=new Libro(titulo,isbn,genero,autor,paginas);
+    	    	 
     	return libro;
     }
     
@@ -115,4 +151,137 @@ public class Main {
         opcion=teclado.nextLine();
     	return opcion;
     }
+    private static void listLibros(ArrayList<Libro> catalogo) {
+    	// mostrar los elementos del array 
+    	
+    	
+    //hsdfs:23hd:novela:hsdh:1424
+    	
+//    	
+     	int NumLibro=1;
+    	for (Libro l: catalogo) {
+    		System.out.println("libro" +NumLibro++);
+   		    System.out.println(l);
+    	}
+    }
+     public static  void  bajaLibros(ArrayList<Libro> catalogo) {
+    	 Scanner sc= new Scanner(System.in);
+    	  System.out.println(" introduce el numero delibro que quieres eliminar ");
+    	  int NumEliminar = sc.nextInt();
+    	  System.out.println(catalogo.remove(NumEliminar-1));
+     
+    }
+    private static void buscarLibros(ArrayList<Libro> catalogo ) {
+    	Scanner sc =new Scanner(System.in);
+    
+    	System.out.println(" introduce isbn del libro");
+   	    String buscar= sc.next();
+        Libro l = new Libro();
+        l.setIsbn(buscar);
+        // buscar posicion indexOf devuelve el posicion de (l)
+        
+    	int indice = catalogo.indexOf(l);
+    	if (indice != -1) {
+    		System.out.println("El isbn está en el índice " + indice);
+    		System.out.println(catalogo.get(indice));
+		
+    	}
+   	}
+    private static void ordenacionLibros(ArrayList<Libro> catalogo) {
+    	
+    	 
+    // Ordenamos la lista.
+    
+    Scanner sc=new Scanner( System.in);
+    System.out.println(" que ordenacion preferes  se por titulo puse 1, por paginas puse 2 ");
+    int a= sc.nextInt();
+    switch(a) {
+    case 1:
+    	Collections.sort(catalogo); 
+		break;
+	case 2:
+		Collections.sort(catalogo, new Libro()); 
+		break;
+	default:
+		break;
+    
+    }
+   
+    }
+    /*
+    private static void fichero(String Libro) {
+//	File file =new File("C:\\Users\\usuario\\Desktop\\CarpetaExamenED\\Catalodo");
+//    if (! file.exists()) {
+//    	try {
+//    		file.createNewFile();
+//    		System.out.println(file.getName()+" ha sido creado");
+//    	}catch(IOException ex) { ex.printStackTrace();}
+//    }
+		Scanner sc=new Scanner( System.in);
+		System.out.println( " Introduce el nombre del fichero ");
+		String nombreFichero = sc.next();
+      try {
+       FileWriter fichero = new FileWriter("nombreFichero.txt");
+       fichero.write(Libro);
+       fichero.close();
+       System.out.println("fichero creado."+ nombreFichero);
+    }  catch (IOException e) {
+       System.out.println("An error occurred.");
+	    e.printStackTrace();
+	    
+	  }*/
+	
+    public static void creatFichero(ArrayList<Libro> catalogo) {
+    	Scanner sc=new Scanner( System.in);
+		System.out.println( " Introduce el nombre del fichero ");
+		String nombreFichero = sc.next();
+      try {
+        
+    	  FileWriter fichero = new FileWriter(nombreFichero + ".txt");
+    	  BufferedWriter file =new BufferedWriter(fichero);
+    	  for(Libro l : catalogo) {
+    		  String linea = "Libro"+l.getTitulo() + " / "+l.getIsbn()+" / "+l.getAutor()+ " / "+ l.getGenero() + "/ "+l.getPaginas();
+    		  file.write(linea);
+    		  file.newLine();
+    		  System.out.println("el libro "+l.getTitulo() +" esta en el fichero");
+    	  }
+    	  file.close();
+    	  
+      }  catch (IOException e) {
+          System.out.println("An error occurred.");
+   	    e.printStackTrace();
 }
+   }
+    public static void cargaFichero( ArrayList<Libro> catalogo) {
+    	Scanner sc=new Scanner( System.in);
+    	try {
+    		System.out.println("introduce el nombre del fichero ");
+    		String nombreFichero=sc.nextLine();
+    		FileReader fichero = new FileReader(nombreFichero+ " .txt");
+    		BufferedReader file= new BufferedReader(fichero) ;
+    		 String linea ;
+    		 while ((linea= file.readLine())!=null) {
+    			 Libro l = entradaCatalogo(linea);
+    			 catalogo.add(l);
+    			 
+    		 }
+    	}catch (IOException e) {
+            System.out.println("An error occurred.");
+       	    e.printStackTrace();
+    }
+    
+    }
+
+	private static Libro entradaCatalogo(String linea) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	
+	}
+
+	
+	
+
