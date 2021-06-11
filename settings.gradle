@@ -8,5 +8,5 @@
  */
 
 def prefixUsername = "Sokayna"
-def projectName = "-Biblioteca"
+def projectName = "-BibliotecaNueva"
 rootProject.name = prefixUsername + projectName

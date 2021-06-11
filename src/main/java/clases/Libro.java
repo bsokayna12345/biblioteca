@@ -121,8 +121,8 @@ public  class Libro implements Comparable<Libro>,Comparator<Libro> {
 	}
 	@Override
 	public String toString() {
-		return "Libro [titulo=" + titulo + ", isbn=" + isbn + ", genero=" + genero + ", autor=" + autor + ", paginas="
-				+ paginas + "] \n";
+		return  titulo + "," + isbn + "," + genero + "," + autor + ","
+				+ paginas+ "\n";
 		
 	}
 
